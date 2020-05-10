@@ -23,8 +23,11 @@ func AddUser(c *gin.Context) {
 		Password: p.Password,
 		Avatar:   p.Avatar,
 	}
-	err := service.AddUser(user)
+	err, u := service.AddUser(user)
 	if err != nil {
-		ctx.Response(common.HAVE_EXIST, err.Error(), nil)
+		logger.Error("addUser error:", err)
+		ctx.Response(common.ERROR, err.Error(), nil)
+	} else {
+		ctx.Response(common.SUCCESS, nil, u)
 	}
 }
