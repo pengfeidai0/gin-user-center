@@ -2,6 +2,10 @@
 
 基于 [gin-user-start](https://github.com/pengfeidai/gin-user-start) 完成的同一的应用层用户中心，包含用户登录、会话校验、角色分配、权限管理等功能。
 
+## 功能点
+- [x] 用户管理
+  - [x] 添加用户
+
 ## 快速开始
 
 #### 代码仓库

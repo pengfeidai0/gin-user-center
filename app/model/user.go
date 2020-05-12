@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	UserId    int        `json:"id" gorm:"primary_key;auto_increment" description:"用户id"`
+	UserId    int        `json:"userId" gorm:"primary_key;auto_increment" description:"用户id"`
 	Phone     string     `json:"phone" gorm:"size:32;unique_index;not null" description:"手机号"`
 	Name      string     `json:"name" gorm:"size:32;not null" description:"用户名"`
 	Password  string     `json:"password" gorm:"type:char(32);not null" description:"密码"`

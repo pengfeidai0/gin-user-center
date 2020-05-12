@@ -10,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/**
+* 新增用户
+ */
 func AddUser(c *gin.Context) {
 	ctx := util.Context{Ctx: c}
 
@@ -17,6 +20,7 @@ func AddUser(c *gin.Context) {
 	if err := ctx.ValidateJSON(&p); err != nil {
 		return
 	}
+
 	user := model.User{
 		Phone:    p.Phone,
 		Name:     p.Name,
@@ -25,9 +29,14 @@ func AddUser(c *gin.Context) {
 	}
 	err, u := service.AddUser(user)
 	if err != nil {
-		logger.Error("addUser error:", err)
+		logger.Error("controller addUser error:", err)
 		ctx.Response(common.ERROR, err.Error(), nil)
 	} else {
-		ctx.Response(common.SUCCESS, nil, u)
+		data := map[string]interface{}{
+			"userId": u.UserId,
+			"name":   u.Name,
+			"avatar": u.Avatar,
+		}
+		ctx.Response(common.SUCCESS, nil, data)
 	}
 }

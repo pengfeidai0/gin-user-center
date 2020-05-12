@@ -6,9 +6,12 @@ const (
 	LOGIN_FAIL   = "登录失败"
 
 	// user
-	PHONE_EXIST = "该手机号已注册"
+	PHONE_EXIST   = "该手机号已注册"
+	INVALID_PHONE = "手机号不合法"
 
 	YES         = "Y"
 	NO          = "N"
 	TIME_FORMAT = "2006-01-02 15:04:05"
+
+	BASE_SALT = "@#$%^&*0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )

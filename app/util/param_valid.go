@@ -1,6 +1,8 @@
 package util
 
-import "gin-user-center/app/common"
+import (
+	"gin-user-center/app/common"
+)
 
 var logger = common.Logger
 
