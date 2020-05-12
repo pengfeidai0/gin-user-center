@@ -1,15 +1,9 @@
-package util
-
-import (
-	"gin-user-center/app/common"
-)
-
-var logger = common.Logger
+package middleware
 
 // ShouldBind
 func (c *Context) Validate(p interface{}) error {
 	if err := c.Ctx.ShouldBind(p); err != nil {
-		logger.Error("param validate err:", err)
+		logger.Error("param validate error:", err)
 		c.Response(400, err.Error(), nil)
 		return err
 	}

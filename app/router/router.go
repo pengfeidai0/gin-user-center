@@ -5,7 +5,6 @@ import (
 	"gin-user-center/app/config"
 
 	"gin-user-center/app/middleware"
-	"gin-user-center/app/util"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
@@ -20,15 +19,18 @@ func InitRouter() *gin.Engine {
 	router := gin.New()
 	// 404处理
 	router.NoRoute(func(c *gin.Context) {
-		ctx := util.Context{Ctx: c}
+		ctx := middleware.Context{Ctx: c}
 		path := c.Request.URL.Path
 		method := c.Request.Method
 		ctx.Response(404, fmt.Sprintf("%s %s not found", method, path), nil)
 	})
 
-	// 跨域
-	router.Use(cors.Default())
-	router.Use(middleware.Logger())
+	// 中间件
+	router.Use(
+		cors.Default(),
+		middleware.Recovery(),
+		middleware.Logger(),
+	)
 
 	var store sessions.Store
 	if config.Server.UserRedis {
@@ -36,14 +38,15 @@ func InitRouter() *gin.Engine {
 	} else {
 		store = cookie.NewStore([]byte("secret"))
 	}
-	// store.Options(sessions.Options{
-	// 	HttpOnly: true,
-	// 	MaxAge:   60 * 15,
-	// })
-	router.Use(sessions.Sessions("session_id", store))
+	store.Options(sessions.Options{
+		Path:     config.Session.Path,
+		HttpOnly: config.Session.HttpOnly,
+		MaxAge:   config.Session.MaxAge,
+	})
 
 	// 路由分组加载
 	group := router.Group(config.Url.Prefix)
+	InitAuthRouter(group, store)
 	InitUserRouter(group)
 
 	// user

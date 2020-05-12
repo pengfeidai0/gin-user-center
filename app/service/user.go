@@ -13,17 +13,16 @@ var logger = common.Logger
 /**
 * 新增用户
  */
-func AddUser(u model.User) (err error, user model.User) {
-
+func AddUser(u model.User) (user model.User, err error) {
 	// 手机号格式校验
 	if false == util.CheckPhone(u.Phone) {
-		return errors.New(common.INVALID_PHONE), user
+		return user, errors.New(common.INVALID_PHONE)
 	}
 
 	// 手机号是否已注册
 	isExist := model.IsExist(u.Phone)
 	if isExist {
-		return errors.New(common.PHONE_EXIST), user
+		return user, errors.New(common.PHONE_EXIST)
 	}
 
 	u.Salt = util.RandString(16)
@@ -32,5 +31,5 @@ func AddUser(u model.User) (err error, user model.User) {
 	logger.Info("service AddUser param:", u)
 
 	err = mysql.DB.Create(&u).Error
-	return err, u
+	return u, err
 }
