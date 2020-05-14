@@ -18,6 +18,7 @@ type User struct {
 
 // 是否存在
 func IsExist(phone string) bool {
-	noExist := mysql.DB.Model(&User{}).Where("phone = ?", phone).RecordNotFound()
+	var user User
+	noExist := mysql.DB.Where("phone = ?", phone).First(&user).RecordNotFound()
 	return !noExist
 }

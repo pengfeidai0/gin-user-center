@@ -10,6 +10,6 @@ import (
 func InitUserRouter(group *gin.RouterGroup) {
 	router := group.Group("").Use(middleware.SessionAuth())
 	{
-		router.POST("/user", controller.AddUser)
+		router.POST("/change_pwd", controller.UpdatePassword)
 	}
 }

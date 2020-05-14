@@ -10,11 +10,14 @@ const (
 	GET_TRANSLATION_FAIL = "获取翻译器失败"
 
 	// user
-	PHONE_EXIST     = "该手机号已注册"
-	PHONE_NOT_EXIST = "手机号不存在"
-	INVALID_PHONE   = "手机号不合法"
-	PASSWORS_ERROR  = "登录密码错误"
-	NOT_LOGIN       = "用户未登录"
+	PHONE_EXIST              = "该手机号已注册"
+	PHONE_NOT_EXIST          = "手机号不存在"
+	INVALID_PHONE            = "手机号不合法"
+	PASSWORS_ERROR           = "登录密码错误"
+	NOT_LOGIN                = "用户未登录"
+	OLD_PASSWORS_ERROR       = "原密码不正确"
+	NEW_PASSWORD_SAME_AS_OLD = "新密码不可与原密码相同"
+	UPDATE_PASSWORD_FAILD    = "更新密码失败"
 
 	SESSION_KEY = "user"
 

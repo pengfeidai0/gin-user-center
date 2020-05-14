@@ -3,43 +3,39 @@ package controller
 import (
 	"gin-user-center/app/common"
 	"gin-user-center/app/middleware"
-	"gin-user-center/app/model"
 	"gin-user-center/app/schema"
 	"gin-user-center/app/service"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 var logger = common.Logger
 
 /**
-* 新增用户
+ * 用户修改密码
  */
-func AddUser(c *gin.Context) {
+func UpdatePassword(c *gin.Context) {
 	ctx := middleware.Context{Ctx: c}
 
-	var p schema.AddUser
+	var p schema.UpdatePassword
 	if err := ctx.ValidateJSON(&p); err != nil {
 		return
 	}
 
-	user := model.User{
-		Phone:    p.Phone,
-		Name:     p.Name,
-		Password: p.Password,
-		Avatar:   p.Avatar,
-	}
-	u, err := service.AddUser(user)
+	err := service.UpdatePassword(p.Phone, p.OldPassword, p.NewPassword)
 	if err != nil {
-		logger.Error("controller addUser error:", err)
+		logger.Error("controller UpdatePassword error:", err)
 		ctx.Response(common.ERROR, err.Error(), nil)
 		return
 	}
+	// 清除session，重新登录
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
 
-	data := map[string]interface{}{
-		"userId": u.UserId,
-		"name":   u.Name,
-		"avatar": u.Avatar,
+	data := map[string]string{
+		"data": "success",
 	}
 	ctx.Response(common.SUCCESS, nil, data)
 }
