@@ -16,6 +16,7 @@ func Recovery() gin.HandlerFunc {
 				logger.Error("recover error:", err)
 				logger.Warn("debug stack warn:", string(debug.Stack()))
 				ctx.Response(500, common.SERVER_ERROR, nil)
+				c.Abort()
 				return
 			}
 		}()

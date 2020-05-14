@@ -12,8 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const KEY = "user"
-
 /**
  * 用户登录
  */
@@ -40,7 +38,7 @@ func Login(c *gin.Context) {
 
 	value, _ := json.Marshal(user)
 	session := sessions.Default(c)
-	session.Set(KEY, string(value))
+	session.Set(common.SESSION_KEY, string(value))
 	session.Save()
 	ctx.Response(common.SUCCESS, nil, user)
 }

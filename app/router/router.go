@@ -44,11 +44,11 @@ func InitRouter() *gin.Engine {
 		MaxAge:   config.Session.MaxAge,
 	})
 
+	router.Use(sessions.Sessions("mysession", store))
 	// 路由分组加载
 	group := router.Group(config.Url.Prefix)
-	InitAuthRouter(group, store)
+	InitAuthRouter(group)
 	InitUserRouter(group)
 
-	// user
 	return router
 }

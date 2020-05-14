@@ -16,6 +16,8 @@ const (
 	PASSWORS_ERROR  = "登录密码错误"
 	NOT_LOGIN       = "用户未登录"
 
+	SESSION_KEY = "user"
+
 	YES         = "Y"
 	NO          = "N"
 	TIME_FORMAT = "2006-01-02 15:04:05"
