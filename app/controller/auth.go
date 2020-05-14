@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"gin-user-center/app/common"
-	"gin-user-center/app/config"
 	"gin-user-center/app/middleware"
 	"gin-user-center/app/service"
 
@@ -13,6 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const KEY = "user"
+
+/**
+ * 用户登录
+ */
 func Login(c *gin.Context) {
 	ctx := middleware.Context{Ctx: c}
 
@@ -36,8 +40,21 @@ func Login(c *gin.Context) {
 
 	value, _ := json.Marshal(user)
 	session := sessions.Default(c)
-	session.Set(config.Conf.Session.Key, string(value))
+	session.Set(KEY, string(value))
 	session.Save()
-
 	ctx.Response(common.SUCCESS, nil, user)
+}
+
+/**
+ * 退出登录
+ */
+func Logout(c *gin.Context) {
+	ctx := middleware.Context{Ctx: c}
+
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+	type user struct{}
+
+	ctx.Response(common.SUCCESS, nil, user{})
 }

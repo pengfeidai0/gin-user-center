@@ -34,9 +34,9 @@ func InitRouter() *gin.Engine {
 
 	var store sessions.Store
 	if config.Server.UserRedis {
-		store, _ = redis.NewStore(config.Session.Size, "tcp", config.Redis.Addr, config.Redis.Password, []byte("secret"))
+		store, _ = redis.NewStore(config.Session.Size, "tcp", config.Redis.Addr, config.Redis.Password, []byte(config.Session.Key))
 	} else {
-		store = cookie.NewStore([]byte("secret"))
+		store = cookie.NewStore([]byte(config.Session.Key))
 	}
 	store.Options(sessions.Options{
 		Path:     config.Session.Path,

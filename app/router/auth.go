@@ -11,5 +11,6 @@ func InitAuthRouter(group *gin.RouterGroup, store sessions.Store) {
 	router := group.Group("").Use(sessions.Sessions("mysession", store))
 	{
 		router.POST("/login", controller.Login)
+		router.POST("/logout", controller.Logout)
 	}
 }
