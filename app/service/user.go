@@ -68,3 +68,16 @@ func UpdatePassword(phone, oldPassword, newPassword string) (err error) {
 	}
 	return nil
 }
+
+/**
+ * 修改头像
+ */
+// func UploadAvatar(fileName string) error {
+// 	var user model.User
+// 	// 更新密码
+// 	err = mysql.DB.Model(&user).Where("phone = ?", phone).Update("password", password).Error
+// 	if err != nil {
+// 		logger.Error("service UploadAvatar error:", err)
+// 		return errors.New(common.UPDATE_PASSWORD_FAILD)
+// 	}
+// }

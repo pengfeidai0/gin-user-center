@@ -40,7 +40,23 @@ log:
   debug: true
   maxAge: 7
   fileName: 'server.log'
-  dirName: '/data/gin-user-center/logs'
+  dirName: '/opt/data/gin-user-center/logs'
+
+file:
+  dirName: '/Users/zl/workspace/go/gin-user-center/public/file/'
+  # dirName: '/opt/data/gin-user-center/file/'
+
   
 url:
+  # 路由前缀
   prefix: '/api/v1/gin-user-center'
+
+oss:
+  endpoint: ''
+  accessKeyId: ''
+  accessKeySecret: ''
+  bucket: ''
+
+
+
+

@@ -18,6 +18,7 @@ const (
 	OLD_PASSWORS_ERROR       = "原密码不正确"
 	NEW_PASSWORD_SAME_AS_OLD = "新密码不可与原密码相同"
 	UPDATE_PASSWORD_FAILD    = "更新密码失败"
+	UPDATE_AVATAR_FAIL       = "更新头像失败"
 
 	SESSION_KEY = "user"
 

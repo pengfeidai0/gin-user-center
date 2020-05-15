@@ -18,6 +18,8 @@ type Yaml struct {
 	Session `yaml:"session"`
 	Log     `yaml:"log"`
 	Url     `yaml:"url"`
+	File    `yaml:"file"`
+	Oss     `yaml:"oss"`
 }
 
 type Server struct {
@@ -69,6 +71,17 @@ type Log struct {
 
 type Url struct {
 	Prefix string `yaml:"prefix"`
+}
+
+type File struct {
+	DirName string `yaml:"dirName"`
+}
+
+type Oss struct {
+	Endpoint        string `yaml:"endpoint"`
+	AccessKeyId     string `yaml:"accessKeyId"`
+	AccessKeySecret string `yaml:"accessKeySecret"`
+	Bucket          string `yaml:"bucket"`
 }
 
 var Conf *Yaml

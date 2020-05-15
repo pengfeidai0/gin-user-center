@@ -19,7 +19,6 @@ func Login(phone string, password string) (user model.User, err error) {
 	}
 
 	err = mysql.DB.Where(&model.User{Phone: phone}).First(&user).Error
-
 	if err != nil {
 		return user, errors.New(common.PHONE_NOT_EXIST)
 	}
