@@ -13,6 +13,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type content map[string]interface{}
+
 /**
  * 用户注册
  */
@@ -32,16 +34,15 @@ func Register(c *gin.Context) {
 	}
 	u, err := service.AddUser(user)
 	if err != nil {
-		logger.Error("controller addUser error:", err)
 		ctx.Response(common.ERROR, err.Error(), nil)
 		return
 	}
 
-	data := map[string]interface{}{
+	data := content{
 		"userId": u.UserId,
 		"name":   u.Name,
-		"avatar": u.Avatar,
 	}
+
 	ctx.Response(common.SUCCESS, nil, data)
 }
 
@@ -58,22 +59,25 @@ func Login(c *gin.Context) {
 
 	u, err := service.Login(p.Phone, p.Password)
 	if err != nil {
-		logger.Error("controller login error:", err)
 		ctx.Response(common.ERROR, err.Error(), nil)
 		return
 	}
 
-	user := map[string]interface{}{
+	data := content{
 		"userId": u.UserId,
 		"name":   u.Name,
 		"avatar": u.Avatar,
 	}
 
-	value, _ := json.Marshal(user)
+	value, err := json.Marshal(data)
+	if err != nil {
+		ctx.Response(common.ERROR, common.SERVER_ERROR, nil)
+		return
+	}
 	session := sessions.Default(c)
 	session.Set(common.SESSION_KEY, string(value))
 	session.Save()
-	ctx.Response(common.SUCCESS, nil, user)
+	ctx.Response(common.SUCCESS, nil, data)
 }
 
 /**
@@ -85,7 +89,7 @@ func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
 	session.Save()
-	type user struct{}
+	data := content{}
 
-	ctx.Response(common.SUCCESS, nil, user{})
+	ctx.Response(common.SUCCESS, nil, data)
 }

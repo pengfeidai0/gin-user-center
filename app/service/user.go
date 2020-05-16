@@ -29,8 +29,11 @@ func AddUser(u model.User) (user model.User, err error) {
 	u.Salt = util.RandString(16)
 	u.Password = util.Md5(u.Password, u.Salt)
 
-	err = mysql.DB.Create(&u).Error
-	return u, err
+	if err = mysql.DB.Create(&u).Error; err != nil {
+		logger.Error("service addUser error:", err)
+		return u, err
+	}
+	return u, nil
 }
 
 /*
@@ -72,12 +75,13 @@ func UpdatePassword(phone, oldPassword, newPassword string) (err error) {
 /**
  * 修改头像
  */
-// func UploadAvatar(fileName string) error {
-// 	var user model.User
-// 	// 更新密码
-// 	err = mysql.DB.Model(&user).Where("phone = ?", phone).Update("password", password).Error
-// 	if err != nil {
-// 		logger.Error("service UploadAvatar error:", err)
-// 		return errors.New(common.UPDATE_PASSWORD_FAILD)
-// 	}
-// }
+func UploadAvatar(userId int, fileName string) error {
+	var user model.User
+	// 更新密码
+	err := mysql.DB.Model(&user).Where("user_id = ?", userId).Update("avatar", fileName).Error
+	if err != nil {
+		logger.Error("service UploadAvatar error:", err)
+		return err
+	}
+	return nil
+}

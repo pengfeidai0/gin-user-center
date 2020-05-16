@@ -12,11 +12,13 @@ func SessionAuth() gin.HandlerFunc {
 		ctx := Context{Ctx: c}
 
 		session := sessions.Default(c)
-		if session.Get(common.SESSION_KEY) == nil {
+		sessionData := session.Get(common.SESSION_KEY)
+		if sessionData == nil {
 			ctx.Response(401, common.NOT_LOGIN, nil)
 			c.Abort()
 			return
 		}
+		c.Set(common.SESSION_KEY, sessionData)
 		c.Next()
 	}
 }

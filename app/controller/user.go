@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"gin-user-center/app/common"
 	"gin-user-center/app/middleware"
 	"gin-user-center/app/schema"
@@ -12,6 +13,12 @@ import (
 )
 
 var logger = common.Logger
+
+type userSession struct {
+	UserId int    `json: "userId"`
+	Name   string `json: "name"`
+	Avatar string `json: "avatar"`
+}
 
 /**
  * 用户修改密码
@@ -26,7 +33,6 @@ func UpdatePassword(c *gin.Context) {
 
 	err := service.UpdatePassword(p.Phone, p.OldPassword, p.NewPassword)
 	if err != nil {
-		logger.Error("controller UpdatePassword error:", err)
 		ctx.Response(common.ERROR, err.Error(), nil)
 		return
 	}
@@ -53,6 +59,14 @@ func UploadAvatar(c *gin.Context) {
 		ctx.Response(common.ERROR, common.UPDATE_AVATAR_FAIL, nil)
 		return
 	}
+
+	sessionData, _ := c.Get(common.SESSION_KEY)
+	var user userSession
+	if err := json.Unmarshal([]byte(sessionData.(string)), &user); err != nil {
+		logger.Error("controller UploadAvatar Unmarshal error:", err)
+		ctx.Response(common.ERROR, common.SERVER_ERROR, nil)
+		return
+	}
 	// 暂时保存到文件，TODO:上传到oss、七牛云
 	fileName, err := util.SaveToFile(file)
 	if err != nil {
@@ -62,14 +76,14 @@ func UploadAvatar(c *gin.Context) {
 	}
 
 	// 保存图片
-	// err = service.UploadAvatar(fileName)
+	err = service.UploadAvatar(user.UserId, fileName)
 	if err != nil {
 		ctx.Response(common.ERROR, common.UPDATE_AVATAR_FAIL, nil)
 		return
 	}
 
 	data := map[string]string{
-		"data": fileName,
+		"url": fileName,
 	}
 	ctx.Response(common.SUCCESS, nil, data)
 }
