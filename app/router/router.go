@@ -17,6 +17,8 @@ func InitRouter() *gin.Engine {
 	config := config.Conf
 	gin.SetMode(config.Mode)
 	router := gin.New()
+	// 最大的上传文件 8M
+	router.MaxMultipartMemory = 8 << 20
 	// 404处理
 	router.NoRoute(func(c *gin.Context) {
 		ctx := middleware.Context{Ctx: c}

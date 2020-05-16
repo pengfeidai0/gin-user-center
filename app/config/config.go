@@ -74,7 +74,8 @@ type Url struct {
 }
 
 type File struct {
-	DirName string `yaml:"dirName"`
+	DirName   string `yaml:"dirName"`
+	UrlPrefix string `yaml:"urlPrefix"`
 }
 
 type Oss struct {

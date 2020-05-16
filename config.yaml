@@ -43,10 +43,10 @@ log:
   dirName: '/opt/data/gin-user-center/logs'
 
 file:
-  dirName: '/Users/zl/workspace/go/gin-user-center/public/file/'
   # dirName: '/opt/data/gin-user-center/file/'
+  dirName: '/Users/zl/workspace/go/gin-user-center/public/file/'
+  urlPrefix: 'http://127.0.0.1:8000/api/v1/gin-user-center/file/'  
 
-  
 url:
   # 路由前缀
   prefix: '/api/v1/gin-user-center'

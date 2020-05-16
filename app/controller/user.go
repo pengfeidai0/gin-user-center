@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"gin-user-center/app/common"
+	"gin-user-center/app/config"
 	"gin-user-center/app/middleware"
 	"gin-user-center/app/schema"
 	"gin-user-center/app/service"
@@ -50,12 +51,12 @@ func UpdatePassword(c *gin.Context) {
 /**
  * 更改头像
  */
-func UploadAvatar(c *gin.Context) {
+func UploadImage(c *gin.Context) {
 	ctx := middleware.Context{Ctx: c}
 
 	file, err := c.FormFile("name")
 	if err != nil {
-		logger.Error("controller UploadAvatar error:", err)
+		logger.Error("controller UploadImage error:", err)
 		ctx.Response(common.ERROR, common.UPDATE_AVATAR_FAIL, nil)
 		return
 	}
@@ -63,7 +64,7 @@ func UploadAvatar(c *gin.Context) {
 	sessionData, _ := c.Get(common.SESSION_KEY)
 	var user userSession
 	if err := json.Unmarshal([]byte(sessionData.(string)), &user); err != nil {
-		logger.Error("controller UploadAvatar Unmarshal error:", err)
+		logger.Error("controller UploadImage Unmarshal error:", err)
 		ctx.Response(common.ERROR, common.SERVER_ERROR, nil)
 		return
 	}
@@ -76,14 +77,28 @@ func UploadAvatar(c *gin.Context) {
 	}
 
 	// 保存图片
-	err = service.UploadAvatar(user.UserId, fileName)
+	err = service.UploadImage(user.UserId, fileName)
 	if err != nil {
 		ctx.Response(common.ERROR, common.UPDATE_AVATAR_FAIL, nil)
 		return
 	}
 
 	data := map[string]string{
-		"url": fileName,
+		"url": config.Conf.File.UrlPrefix + fileName,
 	}
 	ctx.Response(common.SUCCESS, nil, data)
+}
+
+/**
+ * 获取头像
+ */
+func GetImage(c *gin.Context) {
+	ctx := middleware.Context{Ctx: c}
+
+	var p schema.GetImage
+	if err := ctx.ValidateRouter(&p); err != nil {
+		return
+	}
+	fileName := config.Conf.File.DirName + p.ImageName
+	c.File(fileName)
 }

@@ -75,12 +75,12 @@ func UpdatePassword(phone, oldPassword, newPassword string) (err error) {
 /**
  * 修改头像
  */
-func UploadAvatar(userId int, fileName string) error {
+func UploadImage(userId int, fileName string) error {
 	var user model.User
 	// 更新密码
 	err := mysql.DB.Model(&user).Where("user_id = ?", userId).Update("avatar", fileName).Error
 	if err != nil {
-		logger.Error("service UploadAvatar error:", err)
+		logger.Error("service UploadImage error:", err)
 		return err
 	}
 	return nil

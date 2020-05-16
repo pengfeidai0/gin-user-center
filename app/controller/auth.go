@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"gin-user-center/app/common"
+	"gin-user-center/app/config"
 	"gin-user-center/app/middleware"
 	"gin-user-center/app/model"
 	"gin-user-center/app/service"
@@ -66,7 +67,7 @@ func Login(c *gin.Context) {
 	data := content{
 		"userId": u.UserId,
 		"name":   u.Name,
-		"avatar": u.Avatar,
+		"avatar": config.Conf.File.UrlPrefix + u.Avatar,
 	}
 
 	value, err := json.Marshal(data)

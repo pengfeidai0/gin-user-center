@@ -5,3 +5,7 @@ type UpdatePassword struct {
 	OldPassword string `form:"oldPassword" json:"oldPassword" binding:"required,gt=0,lte=32"`
 	NewPassword string `form:"newPassword" json:"newPassword" binding:"required,gt=0,lte=32"`
 }
+
+type GetImage struct {
+	ImageName string `uri:"imageName" binding:"required,gt=0,lte=32"`
+}
