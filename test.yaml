@@ -2,9 +2,7 @@ server:
   port: 8000
   mode: 'release'
   limitNum: 20
-  #是否使用mongo
   useMongo: false
-  # 是否使用redis
   useRedis: false
 
 redis:
@@ -30,7 +28,6 @@ mongo:
 session:
   key: ' USER_SECRET'
   size: 10
-  # 7 * 86400 7天
   maxAge: 604800
   path: '/'
   domain: ''
@@ -40,15 +37,13 @@ log:
   debug: true
   maxAge: 7
   fileName: 'server.log'
-  dirName: '/data/gin-user-center/logs'
+  dirName: '/opt/data/gin-user-center/logs'
 
 file:
-  # dirName: '/data/gin-user-center/file/'
-  dirName: 'public/file/'
+  dirName: '/opt/data/gin-user-center/file/'
   urlPrefix: 'http://127.0.0.1:8000/api/v1/gin-user-center/file/'  
 
 url:
-  # 路由前缀
   prefix: '/api/v1/gin-user-center'
 
 oss:
