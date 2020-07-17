@@ -14,8 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type content map[string]interface{}
-
 /**
  * 用户注册
  */
@@ -39,7 +37,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	data := content{
+	data := gin.H{
 		"userId": u.UserId,
 		"name":   u.Name,
 	}
@@ -64,7 +62,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	data := content{
+	data := gin.H{
 		"userId": u.UserId,
 		"name":   u.Name,
 		"avatar": config.Conf.File.UrlPrefix + u.Avatar,
@@ -90,7 +88,7 @@ func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
 	session.Save()
-	data := content{}
+	data := gin.H{}
 
 	ctx.Response(common.SUCCESS, nil, data)
 }

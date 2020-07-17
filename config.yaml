@@ -28,7 +28,7 @@ mongo:
   url: ''
 
 session:
-  key: ' USER_SECRET'
+  key: 'USER_SECRET'
   size: 10
   # 7 * 86400 7天
   maxAge: 604800
